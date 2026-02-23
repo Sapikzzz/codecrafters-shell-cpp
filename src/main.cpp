@@ -11,6 +11,6 @@ int main() {
   while(1){
 	  std::cout << "$ ";
 	  std::cin >> user_input;
-	  std::cout << user_input << ": command not found";
+	  std::cout << user_input << ": command not found\n";
   }
 }

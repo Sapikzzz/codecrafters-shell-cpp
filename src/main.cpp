@@ -13,6 +13,11 @@ int main() {
 		if(user_input == "exit"){
 			return 0;
 		}
-		std::cout << user_input << ": command not found\n";
+		else if(user_input.substr(0, 4) == "echo"){
+			cout << user_input.substr(5);
+		}
+		else{
+			std::cout << user_input << ": command not found\n";
+		}
    }
 }

@@ -8,7 +8,9 @@ int main() {
 
   std::string user_input = "";
 
-  std::cout << "$ ";
-  std::cin >> user_input;
-  std::cout << user_input << ": command not found";
+  while(1){
+	  std::cout << "$ ";
+	  std::cin >> user_input;
+	  std::cout << user_input << ": command not found";
+  }
 }

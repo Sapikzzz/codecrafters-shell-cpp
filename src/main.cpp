@@ -30,6 +30,7 @@ std::string check_all_paths(std::vector<std::string> paths_to_check, std::string
 			}
 		}
 	}
+	return "";
 }
 
 int main() {
@@ -68,10 +69,12 @@ int main() {
 					while(std::getline(ss, segment, ':')){
 						paths_to_check.push_back(segment);
 					}
-					std::cout << check_all_paths(paths_to_check, target_command);
-				}
-				else{
-					std::cout << target_command << ": not found\n";
+					if(check_all_paths(paths_to_check, target_command) != ""){
+						cout << check_all_paths(paths_to_check, target_command);
+					}
+					else{
+						std::cout << target_command << ": not found\n";
+					}
 				}
 			}
 		}

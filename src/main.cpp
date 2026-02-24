@@ -18,5 +18,6 @@ int main() {
 				std::cout << user_input.substr(5) << "\n";
 			default:
 				std::cout << user_input << ": command not found\n";
-   }
+		}
+	}
 }

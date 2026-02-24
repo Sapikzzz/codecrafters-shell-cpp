@@ -10,14 +10,13 @@ int main() {
   	while(1){
 		std::cout << "$ ";
 		std::getline(std::cin, user_input);
-		if(user_input == "exit"){
-			return 0;
-		}
-		else if(user_input.substr(0, 4) == "echo"){
-			std::cout << user_input.substr(5) << "\n";
-		}
-		else{
-			std::cout << user_input << ": command not found\n";
-		}
+
+		switch(user_input.substr(0, user_input.find(" "))){
+			case "exit":
+				return 0;
+			case "echo":
+				std::cout << user_input.substr(5) << "\n";
+			default:
+				std::cout << user_input << ": command not found\n";
    }
 }

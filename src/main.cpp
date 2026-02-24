@@ -1,11 +1,26 @@
+#include <cstddef>
 #include <iostream>
 #include <string>
+#include <cstdlib>
+#include <sstream>
+#include <vector>
+#include <filesystem>
+
+bool is_executable(const std::filesystem::path& p){
+	std::filesystem::perms prms = std::filesystem::status(p).permissions();
+
+	// Check if the prms bitmask is the same as exec permissions bitmask
+	return ((prms & std::filesystem::perms::owner_exec) != std::filesystem::perms::none ||
+		(prms & std::filesystem::perms::group_exec) != std::filesystem::perms::none ||
+		(prms & std::filesystem::perms::others_exec) != std::filesystem::perms::none);
+}
 
 int main() {
   // Flush after every std::cout / std:cerr
 	std::cout << std::unitbuf;
 	std::cerr << std::unitbuf;
 
+	const char* PATH_VAR = "PATH";
 	std::string user_input = "";
   	while(1){
 		std::cout << "$ ";
@@ -28,7 +43,30 @@ int main() {
 				std::cout << target_command << " is a shell builtin\n";
 			}
 			else{
-				std::cout << target_command << ": not found\n";
+				const std::string PATH_ENV_VAL = getenv(PATH_VAR);
+				if(PATH_ENV_VAL != ""){
+					std::stringstream ss(PATH_ENV_VAL);
+					std::string segment;
+					std::vector<std::string> paths_to_check;
+					while(std::getline(ss, segment, ':')){
+						paths_to_check.push_back(segment);
+					}
+					for (size_t i = 0; i < paths_to_check.size(); i++) {
+						std::filesystem::path directory_path = paths_to_check[i];
+						if(std::filesystem::exists(directory_path) && std::filesystem::is_directory(directory_path)){
+							for(const auto& entry : std::filesystem::directory_iterator(directory_path)){
+								if(entry.path().filename() == target_command){
+									if(is_executable(entry.path())){
+										std::cout << target_command << "is" << entry.path();
+									}
+								}
+							}
+						}
+					}
+				}
+				else{
+					std::cout << target_command << ": not found\n";
+				}
 			}
 		}
 		else{

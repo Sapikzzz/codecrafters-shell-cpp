@@ -15,6 +15,23 @@ bool is_executable(const std::filesystem::path& p){
 		(prms & std::filesystem::perms::others_exec) != std::filesystem::perms::none);
 }
 
+std::string check_all_paths(std::vector<std::string> paths_to_check, std::string target_command){
+	for (size_t i = 0; i < paths_to_check.size(); i++) {
+		std::filesystem::path directory_path = paths_to_check[i];
+		if(std::filesystem::exists(directory_path) && std::filesystem::is_directory(directory_path)){
+			for(const auto& entry : std::filesystem::directory_iterator(directory_path)){
+				if(entry.path().filename() == target_command){
+					if(is_executable(entry.path())){
+						std::string path = entry.path();
+						std::string result = target_command + " is " + path + "\n";
+						return result;
+					}
+				}
+			}
+		}
+	}
+}
+
 int main() {
   // Flush after every std::cout / std:cerr
 	std::cout << std::unitbuf;
@@ -51,19 +68,7 @@ int main() {
 					while(std::getline(ss, segment, ':')){
 						paths_to_check.push_back(segment);
 					}
-					for (size_t i = 0; i < paths_to_check.size(); i++) {
-						std::filesystem::path directory_path = paths_to_check[i];
-						if(std::filesystem::exists(directory_path) && std::filesystem::is_directory(directory_path)){
-							for(const auto& entry : std::filesystem::directory_iterator(directory_path)){
-								if(entry.path().filename() == target_command){
-									if(is_executable(entry.path())){
-										std::cout << target_command << " is " << entry.path() << "\n";
-										break;
-									}
-								}
-							}
-						}
-					}
+					std::cout << check_all_paths(paths_to_check, target_command);
 				}
 				else{
 					std::cout << target_command << ": not found\n";

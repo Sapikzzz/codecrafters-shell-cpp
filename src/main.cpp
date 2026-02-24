@@ -57,7 +57,8 @@ int main() {
 							for(const auto& entry : std::filesystem::directory_iterator(directory_path)){
 								if(entry.path().filename() == target_command){
 									if(is_executable(entry.path())){
-										std::cout << target_command << "is" << entry.path();
+										std::cout << target_command << " is " << entry.path();
+										break;
 									}
 								}
 							}

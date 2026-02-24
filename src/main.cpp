@@ -70,7 +70,7 @@ int main() {
 						paths_to_check.push_back(segment);
 					}
 					if(check_all_paths(paths_to_check, target_command) != ""){
-						cout << check_all_paths(paths_to_check, target_command);
+						std::cout << check_all_paths(paths_to_check, target_command);
 					}
 					else{
 						std::cout << target_command << ": not found\n";

@@ -9,7 +9,7 @@ int main() {
 	std::string user_input = "";
   	while(1){
 		std::cout << "$ ";
-		std::cin >> user_input;
+		std::getline(std::cin, user_input);
 		if(user_input == "exit"){
 			return 0;
 		}

@@ -24,6 +24,9 @@ int main() {
 			else if(target_command == "exit"){
 				std::cout << target_command << " is a shell builtin\n";
 			}
+			else if(target_command == "type"){
+				std::cout << target_command << " is a shell builtin\n";
+			}
 			else{
 				std::cout << target_command << ": not found\n";
 			}
